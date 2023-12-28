@@ -6,13 +6,17 @@ const { throwParamMissing, throwInternalServerError } = require("../helper");
 exports.getIndividualTicketStatus = async (req) => {
   const { id } = req.params;
 
-  if (!id) {
+  if (!id || ["", false].includes(id) || id.trim().length < 1) {
+    throwParamMissing();
+    return;
+  }
+
+  if (!Number.isFinite(+id)) {
     throwParamMissing();
     return;
   }
 
   try {
-    //TODO : Check if id is an integed
     if (id) {
       const result = await runQuery(
         `SELECT * FROM ${TICKETS_TABLE} WHERE id = ${id}`
