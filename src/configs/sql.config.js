@@ -20,7 +20,10 @@ exports.createConnection = async () => {
       if (err) {
         console.log("Error connecting to SQL");
         rej();
-      } else res();
+      } else {
+        console.log("SQL DB connected")
+        res();
+      }
     });
   });
 };
