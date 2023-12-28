@@ -25,12 +25,12 @@ exports.getTicketStatus = async function getTicketStatus(req, res, next) {
   }
 };
 
-exports.addUrl = async function addUrl(req, res, next) {
+exports.getOpenBooking = async function getOpenBooking(req, res, next) {
   try {
-    console.log(`PATCH REQ. ${req.body.id}  ${req.body.url} `);
+    console.log(`GET REQ. `);
     const resToSend = await storeDownloadUrl(req);
-    console.log(`Stored URL for ${req.body.id}`);
-    res.status(204).send(resToSend);
+    console.log(`Ticket status change ${resToSend.length}`);
+    res.status(204).send();
   } catch (err) {
     next(err);
   }
