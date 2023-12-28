@@ -1,13 +1,25 @@
+const { getIndividualTicketStatus } = require("../services/ticket.js");
 const {
   getTicketStatus,
   storeDownloadUrl,
   getDownloadUrls,
 } = require("../services/ticket.js");
 
-exports.ticketStatus = async function ticketStatus(req, res, next) {
+exports.singleTicketStatus = async function singleTicketStatus(req, res, next) {
   try {
     console.log(`GET REQ. ${req.params.id} `);
-    const resToSend = await getTicketStatus(req);
+    const resToSend = await getIndividualTicketStatus(req);
+    console.log(`Sending status 200 with ticket status ${resToSend}`);
+    res.status(200).send(resToSend[0]);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getTicketStatus = async function getTicketStatus(req, res, next) {
+  try {
+    console.log(`GET REQ. ${req.params.id} `);
+    const resToSend = await getIndividualTicketStatus(req);
     console.log(`Sending status 200 with ticket status ${resToSend}`);
     res.status(200).send({ downloadRequestId: resToSend });
   } catch (err) {
