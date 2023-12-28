@@ -9,8 +9,8 @@ exports.singleTicketStatus = async function singleTicketStatus(req, res, next) {
   try {
     console.log(`GET REQ. ${req.params.id} `);
     const resToSend = await getIndividualTicketStatus(req);
-    console.log(`Sending status 200 with ticket status ${resToSend}`);
-    res.status(200).send(resToSend[0]);
+    console.log(`Sending status 200 with ticket status ${resToSend.length}`);
+    res.status(200).send(resToSend[0] ?? "No ticket with such id found");
   } catch (err) {
     next(err);
   }
