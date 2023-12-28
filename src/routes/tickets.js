@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { singleTicketStatus, getTicketStatus, getOpenBooking, getUserDetails } = require("../controller/ticket");
+const { singleTicketStatus, getTicketStatus, getOpenBooking, getUserDetails, postUserDetails } = require("../controller/ticket");
 
 const ticketRouter = Router();
 
