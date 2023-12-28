@@ -10,7 +10,7 @@ const {
   INTERNAL_400_MISSING_PARAMS_MESSAGE,
   MESSAGE_400_MISSING_PARAMS,
 } = require("./src/constant/index.js");
-
+const { runQuery, createConnection } = require("./src/configs/sql.config.js");
 
 const app = express();
 
@@ -41,13 +41,18 @@ app.use((err, req, res, next) => {
   else res.status(500).send("Server error!! Something went wrong");
 });
 
-app.listen(PORT, (error) => {
-  if (!error){
+app.listen(PORT, async (error) => {
+  try {
+    await createConnection();
+  } catch (error) {
+    console.log("Error occurred while trying to connect SQL");
+    process.exit(0);
+  }
+  if (!error) {
     console.log(
       "Server is Successfully Running,and App is listening on port " + PORT
     );
-  }
-  else {
+  } else {
     console.log("Error occurred, server can't start", error);
     process.exit(0);
   }
