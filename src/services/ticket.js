@@ -101,9 +101,7 @@ exports.sendUserDetails = async (req) => {
 };
 
 exports.saveUserDetails = async (req) => {
-  const {  ticketId , first_name, last_name, age, gender, phone } = req.body;
-
-
+  const { ticketId, first_name, last_name, age, gender, phone } = req.body;
 
   if (!ticketId) {
     throwParamMissing();
@@ -111,15 +109,18 @@ exports.saveUserDetails = async (req) => {
   }
   if (!first_name) {
     throwParamMissing();
-    return
+    return;
   }
 
   try {
     const results = await runQuery(
       `INSERT INTO ${USER_TABLE} (first_name , last_name , age, gender , phone) VALUES ('${first_name}', '${last_name}' , ${age} , '${gender}' , '${phone}' )`
     );
-    console.log(results)
-    return results
+    const updatedResult = await runQuery(`UPDATE ${TICKETS_TABLE} 
+      SET user_id = ${results.insertId} , status = '${STATUS_BOOKED}'
+      WHERE id = ${ticketId};`);
+
+    return updatedResult;
   } catch (error) {
     console.error(error);
   }
