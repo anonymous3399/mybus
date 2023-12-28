@@ -6,3 +6,5 @@ exports.INTERNAL_401_MESSAGE = "Unauthenticated";
 exports.INTERNAL_400_MISSING_PARAMS_MESSAGE = "Parameter missing";
 exports.MESSAGE_400_MISSING_PARAMS = "parameter is missing";
 exports.MESSAGE_500_INTERNAL_SERVER_ERROR = "Internal server error";
+exports.STATUS_BOOKED = "booked"
+exports.STATUS_PENDING = "pending"
