@@ -1,8 +1,5 @@
-const { getIndividualTicketStatus } = require("../services/ticket.js");
 const {
-  getTicketStatus,
-  storeDownloadUrl,
-  getDownloadUrls,
+  getIndividualTicketStatus,
 } = require("../services/ticket.js");
 
 exports.singleTicketStatus = async function singleTicketStatus(req, res, next) {
