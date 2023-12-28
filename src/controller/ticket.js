@@ -1,6 +1,7 @@
 const {
   changeBookingsToOpen,
   sendUserDetails,
+  saveUserDetails,
 } = require("../services/ticket.js");
 const { sendTicketStatus } = require("../services/ticket.js");
 const { getIndividualTicketStatus } = require("../services/ticket.js");
@@ -54,6 +55,17 @@ exports.getUserDetails = async function getUserDetails(req, res, next) {
       } `
     );
     res.status(200).send(Array.isArray(resToSend) ? resToSend[0] : resToSend);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.postUserDetails = async function postUserDetails(req, res, next) {
+  try {
+    console.log(`Post REQ`);
+    const resToSend = await saveUserDetails(req);
+    console.log(`Sending response 201 back`);
+    res.status(201).send(resToSend);
   } catch (err) {
     next(err);
   }
