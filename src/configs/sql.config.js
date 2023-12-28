@@ -1,4 +1,4 @@
-const sql = require("mysql");
+const sql = require("mysql2");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -13,17 +13,26 @@ const sqlConfigObject = {
 
 let connection = null;
 
-exports.runQuery = async function runQuery(query) {
+exports.createConnection = async () => {
   return new Promise((res, rej) => {
     connection = sql.createConnection(sqlConfigObject);
-    connection.connect();
-    console.log(query);
+    connection.connect((err) => {
+      if (err) {
+        console.log("Error connecting to SQL");
+        rej();
+      } else res();
+    });
+  });
+};
+
+exports.runQuery = async function runQuery(query) {
+  return new Promise((res, rej) => {
     //First index is all the row of results and second index is the column definition so using the array notation to get the first row
     connection.query(query, (err, results, fields) => {
       if (err) rej(err);
       else res(results);
     });
-
-    connection.destroy();
   });
 };
+
+exports.destroyConnection = () => connection?.destroy();
