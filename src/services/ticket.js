@@ -101,9 +101,9 @@ exports.sendUserDetails = async (req) => {
 };
 
 exports.saveUserDetails = async (req) => {
-  const {  first_name, last_name, age, gender, phone } = req.body;
+  const {  ticketId , first_name, last_name, age, gender, phone } = req.body;
 
-  const {ticketId} = req.params
+
 
   if (!ticketId) {
     throwParamMissing();
