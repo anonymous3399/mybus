@@ -1,21 +1,50 @@
 const { runQuery } = require("../configs/sql.config");
+const { STATUS_BOOKED, STATUS_PENDING } = require("../constant");
 const { TICKETS_TABLE } = require("../constant/database");
 const { throwParamMissing, throwInternalServerError } = require("../helper");
 
-exports.getTicketStatus = async (req) => {
+exports.getIndividualTicketStatus = async (req) => {
   const { id } = req.params;
 
   if (!id) {
     throwParamMissing();
+    return;
   }
 
   try {
     //TODO : Check if id is an integed
     if (id) {
-      runQuery(`SELECT * FROM ${TICKETS_TABLE} WHERE id = ${id}`);
+      const result = await runQuery(
+        `SELECT * FROM ${TICKETS_TABLE} WHERE id = ${id}`
+      );
+      return result;
     }
   } catch (error) {
     console.error(error);
+    throwInternalServerError();
+  }
+};
+
+exports.sendTicketStatus = async (req) => {
+  const { status } = req.query;
+  if (!status) {
+    throwParamMissing();
+    return;
+  }
+  if (![STATUS_BOOKED, STATUS_PENDING].includes(status.toLowerCase())) {
+    throwParamMissing();
+    return;
+  }
+  try {
+    if (status) {
+      const result = await runQuery(
+        `SELECT * FROM ${TICKETS_TABLE} WHERE status = ${status}`
+      );
+      return result;
+    }
+  } catch (error) {
+    console.error(error);
+    console.log("Getting error when trying to fetch data from DB");
     throwInternalServerError();
   }
 };
