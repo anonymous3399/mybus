@@ -56,6 +56,7 @@ exports.sendTicketStatus = async (req) => {
 exports.changeBookingsToOpen = async(req)=>{
   try{
     const result = await runQuery(`UPDATE ${TICKETS_TABLE} SET STATUS = '${STATUS_PENDING}'`)
+    return result
   }
   catch(error){
     console.error(error);
