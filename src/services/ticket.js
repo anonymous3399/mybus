@@ -53,7 +53,7 @@ exports.sendTicketStatus = async (req) => {
   }
 };
 
-exports.changeBookingsToOpen = async(req)=>{
+exports.changeBookingsToOpen = async()=>{
   try{
     const result = await runQuery(`UPDATE ${TICKETS_TABLE} SET STATUS = '${STATUS_PENDING}'`)
     return result
