@@ -42,7 +42,7 @@ exports.sendTicketStatus = async (req) => {
   try {
     if (status) {
       const result = await runQuery(
-        `SELECT * FROM ${TICKETS_TABLE} WHERE status = ${status}`
+        `SELECT * FROM ${TICKETS_TABLE} WHERE status = '${status}'`
       );
       return result;
     }
