@@ -1,3 +1,4 @@
+const { changeBookingsToOpen } = require("../services/ticket.js");
 const { sendTicketStatus } = require("../services/ticket.js");
 const {
   getIndividualTicketStatus,
@@ -28,7 +29,7 @@ exports.getTicketStatus = async function getTicketStatus(req, res, next) {
 exports.getOpenBooking = async function getOpenBooking(req, res, next) {
   try {
     console.log(`GET REQ. `);
-    const resToSend = await storeDownloadUrl(req);
+    const resToSend = await changeBookingsToOpen(req);
     console.log(`Ticket status change ${resToSend.length}`);
     res.status(204).send();
   } catch (err) {
