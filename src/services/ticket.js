@@ -56,7 +56,7 @@ exports.sendTicketStatus = async (req) => {
 exports.changeBookingsToOpen = async () => {
   try {
     const result = await runQuery(
-      `UPDATE ${TICKETS_TABLE} SET STATUS = '${STATUS_PENDING}'`
+      `UPDATE ${TICKETS_TABLE} SET STATUS = '${STATUS_PENDING}', user_id = NULL;`
     );
     return result;
   } catch (error) {
@@ -97,5 +97,29 @@ exports.sendUserDetails = async (req) => {
     console.error(error);
     console.log("Getting error when trying to get user details");
     throwInternalServerError();
+  }
+};
+
+exports.saveUserDetails = async (req) => {
+  const {  first_name, last_name, age, gender, phone } = req.body;
+
+  const {ticketId} = req.params
+
+  if (!ticketId) {
+    throwParamMissing();
+    return;
+  }
+  if (first_name) {
+    throwParamMissing();
+  }
+
+  try {
+    const results = runQuery(
+      `INSERT INTO ${USER_TABLE} (first_name , last_name , age, gender , phone) VALUES ('${first_name}', '${last_name} , ${age} , '${gender}' , '${phone}' )`
+    );
+    console.log(results)
+    return results
+  } catch (error) {
+    console.error(error);
   }
 };
