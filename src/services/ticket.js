@@ -52,3 +52,14 @@ exports.sendTicketStatus = async (req) => {
     throwInternalServerError();
   }
 };
+
+exports.changeBookingsToOpen = async(req)=>{
+  try{
+    const result = await runQuery(`UPDATE ${TICKETS_TABLE} SET STATUS = ${STATUS_PENDING}`)
+  }
+  catch(error){
+    console.error(error);
+    console.log("Getting error when trying to update ticket status in DB");
+    throwInternalServerError();
+  }
+}
