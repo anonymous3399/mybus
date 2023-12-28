@@ -11,6 +11,6 @@ ticketRouter.get("/open-bookings", getOpenBooking);
 
 ticketRouter.get("/user-details/:id" , getUserDetails)
 
-ticketRouter.post("/user-details" , postUserDetails)
+ticketRouter.post("/user-details/:id" , postUserDetails)
 
 module.exports = ticketRouter;
