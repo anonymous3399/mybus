@@ -109,8 +109,9 @@ exports.saveUserDetails = async (req) => {
     throwParamMissing();
     return;
   }
-  if (first_name) {
+  if (!first_name) {
     throwParamMissing();
+    return
   }
 
   try {
