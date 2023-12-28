@@ -115,7 +115,7 @@ exports.saveUserDetails = async (req) => {
   }
 
   try {
-    const results = runQuery(
+    const results = await runQuery(
       `INSERT INTO ${USER_TABLE} (first_name , last_name , age, gender , phone) VALUES ('${first_name}', '${last_name} , ${age} , '${gender}' , '${phone}' )`
     );
     console.log(results)
