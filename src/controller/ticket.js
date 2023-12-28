@@ -1,8 +1,9 @@
-const { changeBookingsToOpen } = require("../services/ticket.js");
-const { sendTicketStatus } = require("../services/ticket.js");
 const {
-  getIndividualTicketStatus,
+  changeBookingsToOpen,
+  sendUserDetails,
 } = require("../services/ticket.js");
+const { sendTicketStatus } = require("../services/ticket.js");
+const { getIndividualTicketStatus } = require("../services/ticket.js");
 
 exports.singleTicketStatus = async function singleTicketStatus(req, res, next) {
   try {
@@ -20,7 +21,13 @@ exports.getTicketStatus = async function getTicketStatus(req, res, next) {
     console.log(`GET REQ. ${req.query.status} `);
     const resToSend = await sendTicketStatus(req);
     console.log(`Sending status 200 with ticket status ${resToSend.length}`);
-    res.status(200).send( resToSend.length ? { tickets: resToSend } : `No tickets are there with the given ${req.query.status} status`);
+    res
+      .status(200)
+      .send(
+        resToSend.length
+          ? { tickets: resToSend }
+          : `No tickets are there with the given ${req.query.status} status`
+      );
   } catch (err) {
     next(err);
   }
@@ -30,18 +37,23 @@ exports.getOpenBooking = async function getOpenBooking(req, res, next) {
   try {
     console.log(`GET REQ. `);
     const resToSend = await changeBookingsToOpen(req);
-    console.log(`Ticket status change ${resToSend.length}`);
+    console.log(`Ticket status change and sending 204 status to client`);
     res.status(204).send();
   } catch (err) {
     next(err);
   }
 };
 
-exports.getLink = async function getLink(req, res, next) {
+exports.getUserDetails = async function getUserDetails(req, res, next) {
   try {
-    console.log(`GET REQ.${req.query.id}`);
-    const resToSend = await getDownloadUrls(req);
-    res.status(200).send(resToSend);
+    console.log(`GET REQ.${req.params.id}`);
+    const resToSend = await sendUserDetails(req);
+    console.log(
+      `User details for ticket ${req.params.id} is ${
+        Array.isArray(resToSend) ? resToSend[0] : resToSend
+      } `
+    );
+    res.status(200).send(Array.isArray(resToSend) ? resToSend[0] : resToSend);
   } catch (err) {
     next(err);
   }
