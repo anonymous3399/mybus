@@ -6,7 +6,7 @@ const ticketRouter = Router();
 
 ticketRouter.get("/get-status/:id", singleTicketStatus);
 
-ticketRouter.patch("/update/url", () => {});
+ticketRouter.get("/status", () => {});
 
 ticketRouter.get("/url", () => {});
 
